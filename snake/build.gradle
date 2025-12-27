@@ -1,0 +1,35 @@
+plugins {
+    id 'application'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.google.protobuf") version "0.9.4"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("com.googlecode.lanterna:lanterna:3.1.2")
+    implementation("com.google.protobuf:protobuf-java:3.25.3")
+}
+
+application {
+    mainClass.set("snake.app.Main")
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.3"
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = application.mainClass.get()
+    }
+}
+
+tasks.shadowJar {
+    archiveClassifier.set("all")
+    mergeServiceFiles()
+}
